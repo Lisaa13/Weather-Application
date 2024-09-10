@@ -1,34 +1,54 @@
-//creating a date 
-let now = new Date();
-let h3 = document.querySelector("h3");
-let date = now.getDate();
-let hours = now.getHours();
-let minutes = now.getMinutes();
-let year = now.getFullYear();
-
-let days = ["Sun","Mon","Tue","Wed","Thur","Fri","Sta"];
-let day = days[now.getDay()];
-
-let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let month = months[now.getMonth()];
-
-h3.innerHTML ='${day} ${month} ${date}, ${hours}: ${minutes},${year}';
-
-function Search(event){
-    event.preventDefault()
-let searchInput = document.querySelector("#search-txt-btn");
-let h2 = document.querySelector("h2");
-if (searchInput.value) {
-    h2.innerHTML = 'search for ${searchInput.value}...';
-
-}
-else {h2.innerHTML = null;
-then 
-alert ("please input city");
-}
-
-
-let form = document.querySelector("#search-form");
-form.addEventListener("submit", search);
-}
-//linking to the api
+function displayTemperature(response) {
+    let temperatureElement = document.querySelector("#temperature-value");
+    let temperature = Math.round(response.data.temperature.current);
+    let cityElement = document.querySelector("#current-city");
+    cityElement.innerHTML = response.data.city;
+    temperatureElement.innerHTML = temperature;
+  }
+  
+  function search(event) {
+    event.preventDefault();
+    let searchInputElement = document.querySelector("#search-input");
+    let city = searchInputElement.value;
+  
+    let apiKey = "t8o948abdc6be15b83cfbd036b584f29";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
+  
+    axios.get(apiUrl).then(displayTemperature);
+  }
+  
+  function formatDate(date) {
+    let minutes = date.getMinutes();
+    let hours = date.getHours();
+    let day = date.getDay();
+  
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+  
+    if (hours < 10) {
+      hours = `0${hours}`;
+    }
+  
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+  
+    let formattedDay = days[day];
+    return `${formattedDay} ${hours}:${minutes}`;
+  }
+  
+  let searchForm = document.querySelector("#search-form");
+  searchForm.addEventListener("submit", search);
+  
+  let currentDateELement = document.querySelector("#current-date");
+  let currentDate = new Date();
+  
+  currentDateELement.innerHTML = formatDate(currentDate);
+  
