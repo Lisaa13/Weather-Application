@@ -6,7 +6,12 @@ function displayTemperature(response) {
 
   cityElement.innerHTML = response.data.city;
   temperatureElement.innerHTML = temperature;
-  
+
+  let iconElement = document.querySelector("#icon");
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" alt="weather icon">`;
+
+  let weatherDescriptionElement = document.querySelector("#weather-description");
+  weatherDescriptionElement.innerHTML = response.data.condition.description;
   // Call getForecast with the city name
   getForecast(response.data.city);
 }
