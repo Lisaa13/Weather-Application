@@ -12,6 +12,13 @@ function displayTemperature(response) {
 
   let weatherDescriptionElement = document.querySelector("#weather-description");
   weatherDescriptionElement.innerHTML = response.data.condition.description;
+
+  // Get and display wind speed and humidity
+  let windSpeedElement = document.querySelector("#wind-speed");
+  windSpeedElement.innerHTML = `${Math.round(response.data.wind.speed)} km/h`; // Display wind speed
+
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`; // display humidity
   // Call getForecast with the city name
   getForecast(response.data.city);
 }
